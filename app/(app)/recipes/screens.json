@@ -1,4 +1,24 @@
 {
+	"space-probe": {
+		"title": "Space Probe",
+		"published": true,
+		"createdAt": "2026-05-02T00:00:00Z",
+		"updatedAt": "2026-05-02T00:00:00Z",
+		"description": "A pre-dithered 1-bit space scene — Voyager-style probe with a planet and moon.",
+		"componentPath": "./screens/space-probe",
+		"hasDataFetch": false,
+		"props": {},
+		"params": {},
+		"tags": ["bitmap", "image", "space"],
+		"author": {
+			"name": "Jeffrey Gardner"
+		},
+		"renderSettings": {
+			"applyEdgeSnap": false
+		},
+		"version": "0.1.0",
+		"category": "display-components"
+	},
 	"simple-text": {
 		"title": "Simple Text",
 		"published": true,
