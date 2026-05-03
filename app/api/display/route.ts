@@ -189,8 +189,11 @@ export async function GET(request: Request) {
 		};
 		logInfo("Display request successful", { source: "api/display", metadata });
 
-		// Check for firmware updates
-		const latestFirmware = await getLatestFirmware();
+		// Firmware update offering disabled: this server pulls the latest official
+		// TRMNL firmware from GitHub releases, but that firmware is not compatible
+		// with the SeeedStudio DIY kit (per TRMNL help docs). Auto-offering it
+		// causes the device to retry-loop on a failing OTA. Manage firmware
+		// out-of-band via the Seeed-supported flashing path instead.
 		const firmwareExtra: Record<string, unknown> = {
 			// Tell the firmware how to rotate the panel. The TRMNL panel is
 			// portrait-native, so a landscape orientation needs a 90° rotation.
@@ -198,18 +201,15 @@ export async function GET(request: Request) {
 			image_rotate: orientation === "landscape" ? 1 : 0,
 		};
 
-		if (
-			latestFirmware &&
-			isUpdateAvailable(device.firmware_version, latestFirmware.version)
-		) {
+		if (false) {
 			firmwareExtra.update_firmware = true;
-			firmwareExtra.firmware_url = latestFirmware.downloadUrl;
+			firmwareExtra.firmware_url = "";
 			logInfo("Firmware update available", {
 				source: "api/display",
 				metadata: {
 					deviceId: device.friendly_id,
 					currentVersion: device.firmware_version,
-					latestVersion: latestFirmware.version,
+					latestVersion: "",
 				},
 			});
 		}
