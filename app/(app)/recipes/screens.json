@@ -1,4 +1,24 @@
 {
+	"miris-logo": {
+		"title": "Miris Logo",
+		"published": true,
+		"createdAt": "2026-05-03T00:00:00Z",
+		"updatedAt": "2026-05-03T00:00:00Z",
+		"description": "Miris brand mark, full-bleed at 800×480.",
+		"componentPath": "./screens/miris-logo",
+		"hasDataFetch": false,
+		"props": {},
+		"params": {},
+		"tags": ["bitmap", "image", "brand"],
+		"author": {
+			"name": "Jeffrey Gardner"
+		},
+		"renderSettings": {
+			"applyEdgeSnap": false
+		},
+		"version": "0.1.0",
+		"category": "display-components"
+	},
 	"space-probe": {
 		"title": "Space Probe",
 		"published": true,
