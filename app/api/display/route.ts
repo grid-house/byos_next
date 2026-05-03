@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/database/db";
 import { checkDbConnection } from "@/lib/database/utils";
-import { getLatestFirmware, isUpdateAvailable } from "@/lib/firmware";
 import { logError, logInfo } from "@/lib/logger";
 import { DeviceDisplayMode } from "@/lib/mixup/constants";
 import {
@@ -200,19 +199,6 @@ export async function GET(request: Request) {
 			// 0 = portrait (no rotation), 1 = landscape (90°).
 			image_rotate: orientation === "landscape" ? 1 : 0,
 		};
-
-		if (false) {
-			firmwareExtra.update_firmware = true;
-			firmwareExtra.firmware_url = "";
-			logInfo("Firmware update available", {
-				source: "api/display",
-				metadata: {
-					deviceId: device.friendly_id,
-					currentVersion: device.firmware_version,
-					latestVersion: "",
-				},
-			});
-		}
 
 		return buildDisplayResponse(
 			imageUrl,
