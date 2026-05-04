@@ -1,4 +1,6 @@
+import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
+import screensConfig from "@/app/(app)/recipes/screens.json";
 import { db } from "@/lib/database/db";
 import { checkDbConnection } from "@/lib/database/utils";
 import { logError, logInfo } from "@/lib/logger";
@@ -176,6 +178,23 @@ export async function GET(request: Request) {
 				break;
 		}
 
+		// Filename suffix decides whether the device redraws. By default,
+		// `uniqueId` is random per request, so the device sees a new filename
+		// every poll and refreshes the e-ink panel — useful for dynamic recipes
+		// (clock, weather), wasteful for static ones (logos, photos).
+		// Recipes can opt into stable filenames by setting
+		// `renderSettings.staticContent: true` in screens.json. When set, the
+		// suffix is a hash of the image URL — same content produces the same
+		// filename, the device's "is this new?" check sees no change, panel
+		// keeps the existing render. Reduces e-ink wear at fixed refresh rates.
+		const screenMeta = screenToDisplay
+			? (screensConfig as Record<string, { renderSettings?: { staticContent?: boolean } }>)[screenToDisplay]
+			: undefined;
+		const isStaticContent = screenMeta?.renderSettings?.staticContent === true;
+		const filenameSuffix = isStaticContent
+			? createHash("md5").update(imageUrl).digest("hex").substring(0, 8)
+			: uniqueId;
+
 		precacheImageInBackground(imageUrl, device.friendly_id);
 
 		// Update device status in background
@@ -202,7 +221,7 @@ export async function GET(request: Request) {
 
 		return buildDisplayResponse(
 			imageUrl,
-			`${screenToDisplay || "not-found"}_${uniqueId}.bmp`,
+			`${screenToDisplay || "not-found"}_${filenameSuffix}.bmp`,
 			dynamicRefreshRate,
 			firmwareExtra,
 		);

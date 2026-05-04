@@ -14,7 +14,8 @@
 			"name": "Jeffrey Gardner"
 		},
 		"renderSettings": {
-			"applyEdgeSnap": false
+			"applyEdgeSnap": false,
+			"staticContent": true
 		},
 		"version": "0.1.0",
 		"category": "display-components"
@@ -34,7 +35,8 @@
 			"name": "Jeffrey Gardner"
 		},
 		"renderSettings": {
-			"applyEdgeSnap": false
+			"applyEdgeSnap": false,
+			"staticContent": true
 		},
 		"version": "0.1.0",
 		"category": "display-components"
